@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>LC · Titanium B2B</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* ----- 全局重置 ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #0b1a2a;
+      color: #1a2634;
+      scroll-behavior: smooth;
+    }
+
+    /* ----- 导航栏 ----- */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 0.7rem 3rem;
+      background: rgba(8, 18, 30, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 999;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+      flex-wrap: wrap;
+    }
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .navbar-left img {
+      height: 44px;
+      width: 44px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: #fff;
+      padding: 2px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      flex-shrink: 0;
+    }
+    .brand-text {
+      color: #f0f5fc;
+      font-weight: 400;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 3.8rem;
+      font-weight: 500;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: #eef3fa;
+      text-decoration: none;
+      font-size: 1.15rem;
+      padding: 0.3rem 0.1rem;
+      border-bottom: 2px solid transparent;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover {
+      border-bottom-color: #f5b45a;
+      color: #ffd98c;
+    }
+    @media (max-width: 700px) {
+      .navbar {
+        padding: 0.7rem 1.2rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+      }
+      .nav-links {
+        gap: 2rem;
+        width: 100%;
+        justify-content: space-around;
+      }
+      .nav-links a {
+        font-size: 1rem;
+      }
+    }
+
+    /* ----- 通用 section ----- */
+    section {
+      padding: 5.5rem 2rem 4rem;
+      max-width: 1320px;
+      margin: 0 auto;
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .section-title {
+      font-size: 2.6rem;
+      font-weight: 600;
+      margin-bottom: 2.6rem;
+      letter-spacing: 0.5px;
+      border-left: 6px solid #e68a2e;
+      padding-left: 1.4rem;
+      color: #0b1f31;
+    }
+
+    /* ===== HERO: 视频背景 (防闪烁) ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      max-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      /* 关键：设置背景色，防止视频加载前空白闪烁 */
+      background: #0a1628;
+    }
+    /* 视频容器：固定尺寸，防止重排 */
+    .hero-video-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .hero-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* 关键：视频加载前不显示，防止闪烁 */
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .hero-video.loaded {
+      opacity: 1;
+    }
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(6, 16, 28, 0.55);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: white;
+      padding: 2rem;
+      max-width: 950px;
+    }
+    .hero-content h1 {
+      font-size: 4.4rem;
+      font-weight: 700;
+      text-shadow: 0 8px 28px rgba(0,0,0,0.8);
+      letter-spacing: 2px;
+      margin-bottom: 0.6rem;
+    }
+    .hero-content p {
+      font-size: 1.6rem;
+      opacity: 0.92;
+      text-shadow: 0 4px 16px rgba(0,0,0,0.7);
+    }
+    .hero-tag {
+      margin-top: 1.2rem;
+      display: inline-block;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(4px);
+      padding: 0.6rem 2.2rem;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    /* ===== 产品 (防图片闪烁) ===== */
+    .product-item {
+      display: flex;
+      align-items: center;
+      gap: 3.2rem;
+      margin-bottom: 4.5rem;
+      flex-wrap: wrap;
+      background: #ffffff;
+      padding: 2rem 2.5rem;
+      border-radius: 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .product-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+    .product-img {
+      flex: 1 1 300px;
+      min-width: 220px;
+      /* 关键：固定宽高比，防止图片加载重排 */
+      aspect-ratio: 4/3;
+      background: #e8edf3;
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .product-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 24px;
+      transition: 0.25s;
+      /* 关键：图片淡入，防止闪烁 */
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .product-img img.loaded {
+      opacity: 1;
+    }
+    .product-img img:hover {
+      transform: scale(1.02);
+    }
+    .product-info h3 {
+      font-size: 2.1rem;
+      font-weight: 600;
+      color: #0b293f;
+    }
+    .product-info .sub {
+      font-size: 1.1rem;
+      color: #b85f1a;
+      font-weight: 500;
+      margin: 0.2rem 0 0.6rem;
+    }
+    .product-info p {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #2a4052;
+      max-width: 520px;
+    }
+    .custom-badge {
+      display: inline-block;
+      background: #1f4a6b;
+      color: white;
+      padding: 0.25rem 1.4rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-top: 0.7rem;
+      letter-spacing: 0.3px;
+    }
+    .standard-note {
+      margin-top: 1.2rem;
+      background: #e2edf8;
+      padding: 0.6rem 1.8rem;
+      border-radius: 60px;
+      display: inline-block;
+      color: #1a4a6b;
+      font-weight: 500;
+    }
+
+    /* ===== 服务卡片 ===== */
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2.5rem;
+      margin-top: 0.5rem;
+    }
+    .service-card {
+      background: white;
+      padding: 2.2rem 1.8rem;
+      border-radius: 32px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.04);
+      border: 1px solid #e2eaf0;
+      transition: 0.2s;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 38px rgba(0,0,0,0.07);
+      border-color: #c8d8e6;
+    }
+    .service-card i {
+      font-size: 2.8rem;
+      color: #d97c2b;
+      margin-bottom: 1rem;
+    }
+    .service-card h4 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+    .service-card p {
+      color: #375065;
+      line-height: 1.6;
+      font-size: 0.98rem;
+    }
+    .response-badge {
+      margin-top: 2.5rem;
+      background: #eaf1f9;
+      padding: 1rem 2rem;
+      border-radius: 60px;
+      color: #004074;
+      font-weight: 500;
+      display: inline-block;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      background: #ffffffec;
+      backdrop-filter: blur(2px);
+      padding: 2rem 2.5rem;
+      border-radius: 48px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.04);
+    }
+    .faq-item {
+      border-bottom: 1px solid #e1e9f2;
+      padding-bottom: 1.1rem;
+    }
+    .faq-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .faq-q {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #00315a;
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+    }
+    .faq-q i {
+      color: #d97c2b;
+      font-size: 1rem;
+      width: 1.2rem;
+    }
+    .faq-a {
+      margin-top: 0.3rem;
+      padding-left: 2rem;
+      color: #1d384e;
+      line-height: 1.6;
+    }
+
+    /* ===== 底部联系 ===== */
+    .footer-contact {
+      margin-top: 3.8rem;
+      padding: 2rem 2.5rem;
+      background: #0f2636;
+      border-radius: 60px 60px 30px 30px;
+      color: #eef4fa;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .footer-contact .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 1.1rem;
+    }
+    .footer-contact i {
+      font-size: 1.8rem;
+      color: #f7b85e;
+    }
+    .footer-contact a {
+      color: #f0f7ff;
+      text-decoration: none;
+      border-bottom: 1px dotted #6f8ea5;
+    }
+    .footer-contact a:hover {
+      color: #ffcd8a;
+    }
+    .footer-copy {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 700px) {
+      section {
+        padding: 5rem 1.2rem 3rem;
+      }
+      .hero-content h1 {
+        font-size: 2.8rem;
+      }
+      .product-item {
+        flex-direction: column !important;
+        gap: 1.6rem;
+        padding: 1.5rem;
+      }
+      .product-item:nth-child(even) {
+        flex-direction: column !important;
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+      .footer-contact {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .faq-list {
+        padding: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== 导航 ===== -->
+<nav class="navbar">
+  <div class="navbar-left">
+    <img src="LC/lc.png" alt="LC" onerror="this.onerror=null; this.src='LC/lc.jpg'; this.classList.add('loaded');" id="navLogo" />
+    <span class="brand-text">LC</span>
+  </div>
+  <div class="nav-links">
+    <a href="#products">Products</a>
+    <a href="#services">Services</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</nav>
+
+<!-- ===== 首页：视频 ===== -->
+<section class="hero" id="home">
+  <div class="hero-video-wrapper">
+    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
+      <source src="LC/bg.mp4" type="video/mp4" />
+    </video>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Titanium · Beyond Limits</h1>
+    <p>Precision titanium solutions for global industry</p>
+    <div class="hero-tag"><i class="fas fa-globe-americas" style="margin-right:10px;"></i> B2B · OEM · Custom</div>
+  </div>
+</section>
+
+<!-- ===== 产品 ===== -->
+<section id="products">
+  <h2 class="section-title">Product Portfolio</h2>
+
+  <div class="product-item">
+    <div class="product-img">
+      <img src="LC/pro1.jpg" alt="Anodes & cathodes" onerror="this.onerror=null; this.src='LC/pro1.png'; this.classList.add('loaded');" class="productImg" />
+    </div>
+    <div class="product-info">
+      <h3>Titanium Anodes &amp; Cathodes</h3>
+      <div class="sub">Grades: Gr1, Gr2, GR5, TA1, TA2 · custom sizes</div>
+      <p>High-performance anodes and cathodes for electrolysis, plating, and metallurgy. Coating options: Pt/Ir, Ru/Ir. Thickness, length, width fully customizable.</p>
+      <span class="custom-badge"><i class="fas fa-ruler-combined" style="margin-right:6px;"></i> Custom</span>
+    </div>
+  </div>
+
+  <div class="product-item">
+    <div class="product-img">
+      <img src="LC/pro2.jpg" alt="Fasteners" onerror="this.onerror=null; this.src='LC/pro2.png'; this.classList.add('loaded');" class="productImg" />
+    </div>
+    <div class="product-info">
+      <h3>Titanium Fasteners</h3>
+      <div class="sub">Grades: Gr2, Gr5, TC4, TA3 · non‑standard</div>
+      <p>Bolts, nuts, washers, studs in titanium. High strength, corrosion resistance, lightweight. Ideal for aerospace, marine, medical, and chemical equipment.</p>
+      <span class="custom-badge"><i class="fas fa-cogs" style="margin-right:6px;"></i> Non‑standard</span>
+    </div>
+  </div>
+
+  <div class="product-item">
+    <div class="product-img">
+      <img src="LC/pro3.jpg" alt="Valves" onerror="this.onerror=null; this.src='LC/pro3.png'; this.classList.add('loaded');" class="productImg" />
+    </div>
+    <div class="product-info">
+      <h3>Titanium Valves</h3>
+      <div class="sub">Grades: Gr2, Gr7, Gr12, TA4 · custom dimensions</div>
+      <p>Ball, butterfly, gate, and check valves. Resistant to high pressure, temperature, and aggressive media. Custom non‑standard valves per drawing.</p>
+      <span class="custom-badge"><i class="fas fa-drafting-compass" style="margin-right:6px;"></i> By drawing</span>
+    </div>
+  </div>
+
+  <div class="standard-note">
+    <i class="fas fa-check-circle" style="margin-right:8px;"></i> All products comply with ASTM B265 / AMS 4911 / MIL‑T‑9046
+  </div>
+</section>
+
+<!-- ===== 服务 ===== -->
+<section id="services">
+  <h2 class="section-title">Services</h2>
+  <div class="service-grid">
+    <div class="service-card">
+      <i class="fas fa-pencil-ruler"></i>
+      <h4>OEM / ODM</h4>
+      <p>Full customisation from material selection, forging, machining to surface treatment. Prototypes and mass production with strict tolerance control.</p>
+    </div>
+    <div class="service-card">
+      <i class="fas fa-clipboard-check"></i>
+      <h4>Quality Inspection</h4>
+      <p>ISO9001:2000 certified. In‑house chemical, mechanical, ultrasonic, and dimensional testing. Full traceability reports for every batch.</p>
+    </div>
+    <div class="service-card">
+      <i class="fas fa-warehouse"></i>
+      <h4>Warehousing &amp; Logistics</h4>
+      <p>Modern climate‑controlled warehouse. Global shipping via sea, air, or land with real‑time tracking. Safe, on‑time delivery guaranteed.</p>
+    </div>
+    <div class="service-card">
+      <i class="fas fa-coins"></i>
+      <h4>Flexible Payment</h4>
+      <p>T/T, L/C, D/P, PayPal, Western Union. Negotiable deposit for new clients; credit terms for long‑term partners.</p>
+    </div>
+  </div>
+  <div class="response-badge">
+    <i class="fas fa-headset" style="margin-right:10px;"></i> 24‑hour inquiry response · dedicated engineer support
+  </div>
+</section>
+
+<!-- ===== FAQ + 底部 ===== -->
+<section id="faq">
+  <h2 class="section-title">Frequently Asked Questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q"><i class="fas fa-question-circle"></i> What grades of titanium sheets are available?</div>
+      <div class="faq-a">We offer Gr1, Gr2, Gr3, Gr4, Gr7, Gr9, Gr11, Gr12, GR5 (Ti‑6Al‑4V), GR23 (Ti‑6Al‑4V ELI), Ti6Al7Nb, TA1, TA2, TA3, TA4, and TC4.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fas fa-question-circle"></i> Can the dimensions be customized?</div>
+      <div class="faq-a">Yes, thickness, length, and width can be customized as requested to meet your specific needs.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fas fa-question-circle"></i> What standards do your products comply with?</div>
+      <div class="faq-a">Our products meet ASTM B265, ASTM F67, ASTM F136, AMS4911, MIL‑T‑9046, MIL‑T‑9047, and GB/T13622‑199 standards.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fas fa-question-circle"></i> What is the response time for customer inquiries?</div>
+      <div class="faq-a">We guarantee a response to all customer inquiries within 24 hours.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fas fa-question-circle"></i> Do you offer quality control guarantees?</div>
+      <div class="faq-a">Yes, we are ISO9001:2000 certified and maintain strict quality control from production to delivery.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fas fa-question-circle"></i> What is the lead time for orders?</div>
+      <div class="faq-a">Peak season lead time is one month, while off‑season lead time is within 15 workdays.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fas fa-question-circle"></i> Are non‑standard parts available?</div>
+      <div class="faq-a">Yes, we manufacture non‑standard parts according to your specific drawings.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fas fa-question-circle"></i> What are the main applications for these sheets?</div>
+      <div class="faq-a">They are widely used in medical, aerospace, military, petrochemical engineering, metallurgy, electroplating, and sports industries.</div>
+    </div>
+  </div>
+
+  <div class="footer-contact">
+    <div class="contact-item">
+      <i class="fas fa-envelope"></i>
+      <span><a href="mailto:info@lc-titanium.com">info@lc-titanium.com</a></span>
+    </div>
+    <div class="contact-item">
+      <i class="fab fa-whatsapp"></i>
+      <span><a href="https://wa.me/8612345678901" target="_blank">+86 123 4567 8901</a></span>
+    </div>
+    <div class="footer-copy">
+      <i class="fas fa-globe" style="margin-right:6px;"></i> LC Titanium B2B
+    </div>
+  </div>
+</section>
+
+<!-- ===== JavaScript: 防闪烁处理 ===== -->
+<script>
+  (function() {
+    // ----- 1. 视频加载完成后淡入 -----
+    const video = document.getElementById('heroVideo');
+    if (video) {
+      // 如果视频已加载足够数据，直接显示
+      if (video.readyState >= 2) {
+        video.classList.add('loaded');
+      } else {
+        video.addEventListener('canplay', function() {
+          video.classList.add('loaded');
+        });
+        // 兜底：5秒后无论如何显示
+        setTimeout(function() {
+          video.classList.add('loaded');
+        }, 5000);
+      }
+      // 自动播放
+      video.play().catch(function() {
+        // 自动播放被阻止，用户点击页面任何地方后播放
+        document.addEventListener('click', function() {
+          video.play().catch(function() {});
+        }, { once: true });
+      });
+    }
+
+    // ----- 2. 所有产品图片加载后淡入 -----
+    const productImages = document.querySelectorAll('.productImg');
+    productImages.forEach(function(img) {
+      if (img.complete) {
+        img.classList.add('loaded');
+      } else {
+        img.addEventListener('load', function() {
+          img.classList.add('loaded');
+        });
+        img.addEventListener('error', function() {
+          // 即使加载失败也显示（占位背景已存在）
+          img.classList.add('loaded');
+        });
+        // 兜底：3秒后强制显示
+        setTimeout(function() {
+          img.classList.add('loaded');
+        }, 3000);
+      }
+    });
+
+    // ----- 3. 导航logo加载处理 -----
+    const logo = document.getElementById('navLogo');
+    if (logo) {
+      if (logo.complete) {
+        logo.classList.add('loaded');
+      } else {
+        logo.addEventListener('load', function() {
+          logo.classList.add('loaded');
+        });
+        logo.addEventListener('error', function() {
+          logo.classList.add('loaded');
+        });
+      }
+    }
+
+    // ----- 4. 导航平滑滚动 -----
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    console.log('LC B2B · 防闪烁优化已启用');
+  })();
+</script>
+</body>
+</html>
