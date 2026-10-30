@@ -734,6 +734,28 @@
                 font-size: 1.5rem;
             }
         }
+        /* 仅 Product2 三栏布局，不影响其他 product-card */
+.product-card-3col {
+    display: grid !important;
+    grid-template-columns: 1fr 1.4fr 1fr !important;
+    gap: 24px !important;
+    align-items: start !important;
+}
+.product-card-3col .product-image {
+    flex: unset !important;
+    width: 100%;
+}
+.product-card-3col .product-content {
+    flex: unset !important;
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .product-card-3col {
+        grid-template-columns: 1fr !important;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -833,9 +855,9 @@
         </div>
         <span class="product-tag">✔ Non-standard threads &amp; head styles</span>
 
-        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #eee;">
-            <div style="font-weight:600;margin-bottom:6px;">Custom 3/4"-UNC Bolt Set</div>
-            <p style="font-size:0.9rem;line-height:1.6;">
+        <div style="margin-top:1.2rem;border-top:1px solid #eee;padding-top:1.2rem;">
+            <div style="font-size:1.4rem;font-weight:600;margin-bottom:10px;">Custom 3/4"-UNC Bolt Set</div>
+            <p style="font-size:1.05rem;line-height:1.8;">
                 Thread: 3/4"-UNC<br>
                 Hex across flat: 28mm (0/-0.3mm)<br>
                 Other dimensions: ±0.2mm<br>
