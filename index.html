@@ -734,27 +734,7 @@
                 font-size: 1.5rem;
             }
         }
-        /* 仅 Product2 三栏布局，不影响其他 product-card */
-.product-card-3col {
-    display: grid !important;
-    grid-template-columns: 1fr 1.4fr 1fr !important;
-    gap: 24px !important;
-    align-items: start !important;
-}
-.product-card-3col .product-image {
-    flex: unset !important;
-    width: 100%;
-}
-.product-card-3col .product-content {
-    flex: unset !important;
-    width: 100%;
-}
-
-@media (max-width: 900px) {
-    .product-card-3col {
-        grid-template-columns: 1fr !important;
-    }
-}
+      
 
     </style>
 </head>
@@ -836,40 +816,56 @@
 
 
             
-            <!-- Product 2 (3-column: Drawing | Content | Photo) -->
-<div class="product-card product-card-3col">
-    <!-- Left：图纸 -->
-    <div class="product-image">
-        <img src="fastener-drawing.png" alt="Fastener Technical Drawing">
-    </div>
-    <!-- Middle：文字参数 -->
+<!-- Product 2 -->
+<div class="product-card">
     <div class="product-content">
-        <div class="product-number">02 — Precision Fastening</div>
+        <div class="product-number">02 — PRECISION FASTENING</div>
         <h3>Fasteners</h3>
         <div class="product-grades">C276 · Hastelloy C276</div>
-        <p>Bolts, nuts, washers, and screws. Excellent corrosion resistance for harsh chemical, acid and chloride environments.</p>
-        <div class="product-specs">
-            <span>Custom thread</span>
-            <span>Custom lengths</span>
-            <span>ASTM B574</span>
-        </div>
-        <span class="product-tag">✔ Non-standard threads &amp; head styles</span>
 
-        <div style="margin-top:1.2rem;border-top:1px solid #eee;padding-top:1.2rem;">
-            <div style="font-size:1.4rem;font-weight:600;margin-bottom:10px;">Custom 3/4"-UNC Bolt Set</div>
-            <p style="font-size:1.05rem;line-height:1.8;">
-                Thread: 3/4"-UNC<br>
-                Hex across flat: 28mm (0/-0.3mm)<br>
-                Other dimensions: ±0.2mm<br>
-                Flexible tolerance allowance: +4mm for selected sizes
-            </p>
+        <p style="margin-top:1rem;">Bolts, nuts, washers, and screws. Excellent corrosion resistance for harsh chemical, acid and chloride environments.</p>
+
+        <!-- 三栏：图纸｜参数｜实物 -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-top:2rem;align-items:center;">
+            <!-- 左侧：图纸 -->
+            <div class="product-image">
+                <img src="pro2-drawing.png" alt="Bolt technical drawing">
+            </div>
+
+            <!-- 中间：技术参数 -->
+            <div>
+                <h4 style="font-size:1.2rem;font-weight:600;margin:0 0 16px;">Technical Specifications</h4>
+                <ul style="list-style:none;padding:0;margin:0;line-height:1.8;font-size:15px;color:var(--text-secondary);">
+                    <li style="padding:6px 0;border-bottom:1px dashed #dcdcdc;">Thread: 3/4"-UNC</li>
+                    <li style="padding:6px 0;border-bottom:1px dashed #dcdcdc;">Hex across flat: 28mm (0/-0.3mm)</li>
+                    <li style="padding:6px 0;border-bottom:1px dashed #dcdcdc;">Other dimensions: ±0.2mm</li>
+                    <li style="padding:6px 0;">Flexible tolerance allowance: +4mm for selected sizes</li>
+                </ul>
+                <div class="product-specs" style="margin-top:1.4rem;">
+                    <span>Custom thread</span>
+                    <span>Custom lengths</span>
+                    <span>ASTM B574</span>
+                </div>
+                <span class="product-tag">✔ Non-standard threads & head styles</span>
+            </div>
+
+            <!-- 右侧：实物照片 -->
+            <div class="product-image">
+                <img src="pro2-real.png" alt="Hastelloy bolt real photo">
+            </div>
         </div>
-    </div>
-    <!-- Right：实物图 -->
-    <div class="product-image">
-        <img src="pro2.png" alt="Hastelloy C276 Fasteners">
     </div>
 </div>
+
+<style>
+/* 移动端适配：手机端纵向堆叠 */
+@media (max-width:768px) {
+    .product-content > div[style*="grid-template-columns:1fr 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>
+
 
 
             <!-- Product 3 -->
