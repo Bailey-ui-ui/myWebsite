@@ -775,6 +775,36 @@
             <h2>Premium Titanium Products</h2>
             <p>Engineered for performance, reliability, and durability.</p>
         </div>
+<!-- Main product composite images -->
+<div class="main-product-wrap">
+    <img src="pro-main-1.png" alt="Main Products Group 1">
+</div>
+<div class="main-product-wrap" style="margin-top:24px;">
+    <img src="pro-main-2.png" alt="Main Products Group 2">
+</div>
+
+<style>
+.main-product-wrap{
+  overflow:hidden;
+  border-radius:8px;
+  width:100%;
+  margin-bottom:36px;
+}
+.main-product-wrap img{
+  width:100%;
+  height:auto;
+  transition: transform 0.3s ease;
+  display:block;
+}
+.main-product-wrap img:hover{
+  transform: scale(1.03);
+}
+@media (max-width:768px){
+  .main-product-wrap{
+    margin-bottom:24px;
+  }
+}
+</style>
 
         <div class="product-grid">
 
