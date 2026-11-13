@@ -897,41 +897,43 @@
 
 
             <!-- Product 3 -->
-
-
-
-<!-- Product 3 -->
 <div class="product-card">
-    <div class="product-image">
-        <img src="pro3.png" alt="Titanium Bicycle Frame">
-    </div>
+  <div class="product-content">
+    <div class="product-number">03 — FLOW CONTROL</div>
+    <h3>Bicycle Frame</h3>
+    <div class="product-grades">Ti3Al2.5V Ti6Al4V</div>
 
-    <div class="product-content">
-        <div class="product-number">03 — Flow Control</div>
-
-        <h3>Bicycle Frame</h3>
-        <div class="product-grades">Ti3Al2.5V Ti6Al4V</div>
-
-       
-        <h4>Technical Specifications</h4>
-        <ul style="list-style:none;padding:0;margin:0;line-height:1.8;font-size:15px;color:var(--text-secondary);">
-            <li style="padding:10px 0;border-bottom:1px dashed #e5e7eb;">Frame size: 700C*56C</li>
-            <li style="padding:10px 0;border-bottom:1px dashed #e5e7eb;">Bottom Bracket: BB68</li>
-            <li style="padding:10px 0;border-bottom:1px dashed #e5e7eb;">Dropouts: CNC machining one-piece strengthened dropouts</li>
-            <li style="padding:10px 0;border-bottom:1px dashed #e5e7eb;">Hubs: 135mm</li>
-            <li style="padding:10px 0;border-bottom:1px dashed #e5e7eb;">Brake: Disc Brake, C Brake</li>
-            <li style="padding:10px 0;border-bottom:1px dashed #e5e7eb;">Seatpost: 27.2mm</li>
-            <li style="padding:10px 0;border-bottom:1px dashed #e5e7eb;">Seatpost clamp: 31.8mm</li>
-            <li style="padding:10px 0;">Weight: 1.4kg</li>
+    <!-- 左右分栏容器 -->
+    <div style="display:grid; grid-template-columns: 260px 1fr; gap:24px; margin-top:1.2rem; align-items: start;">
+      <!-- 左侧图片 -->
+      <div>
+        <img src="pro3.png" alt="Titanium Bicycle Frame" style="width:100%; border-radius:var(--radius); box-shadow:var(--shadow-sm);">
+      </div>
+      <!-- 右侧参数 -->
+      <div>
+        <h4 style="font-weight:600; margin:0 0 12px 0; font-size:1.05rem;">Technical Specifications</h4>
+        <ul style="list-style:none; padding:0; margin:0; line-height:1.8; font-size:15px;">
+          <li style="padding:6px 0; border-bottom:1px dashed #e2e2e2;">Frame size: 700C*56C</li>
+          <li style="padding:6px 0; border-bottom:1px dashed #e2e2e2;">Bottom Bracket: BB68</li>
+          <li style="padding:6px 0; border-bottom:1px dashed #e2e2e2;">Dropouts: CNC machining one-piece strengthened dropouts</li>
+          <li style="padding:6px 0; border-bottom:1px dashed #e2e2e2;">Hubs: 135mm</li>
+          <li style="padding:6px 0; border-bottom:1px dashed #e2e2e2;">Brake: Disc Brake, C Brake</li>
+          <li style="padding:6px 0; border-bottom:1px dashed #e2e2e2;">Seatpost: 27.2mm</li>
+          <li style="padding:6px 0; border-bottom:1px dashed #e2e2e2;">Seatpost clamp: 31.8mm</li>
+          <li style="padding:6px 0;">Weight: 1.4kg</li>
         </ul>
-
-        <div class="product-specs" style="margin-top:1.4rem;">
-            <span>Custom drawing available</span>
-            <span>OEM & ODM</span>
-        </div>
-
-        <span class="product-tag">✔ Color: Titanium Gray or Customers' Request / Finish: Laser Marking, Engraving, Vacuum Coating / Surface: Hand Brush, Sand Blast, Polish</span>
+      </div>
     </div>
+
+    <!-- 移动端适配：小屏幕自动变成上下排列 -->
+    <style>
+      @media (max-width:768px) {
+        .product-content > div[style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
+        }
+      }
+    </style>
+  </div>
 </div>
 
 
